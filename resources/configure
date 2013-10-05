@@ -1,0 +1,26 @@
+#!/bin/bash
+
+datadir=$(cat /etc/mysql/my.cnf | grep '^datadir' | cut -d" " -f2)
+if [ ! -d "${datadir}/mysql" ]; then
+  chown -R mysql:mysql "${datadir}"
+  mysql_install_db --user=mysql
+fi
+
+mysqld_safe &
+sleep 3
+
+cat /mysql/commands.sql | mysql
+
+echo ""
+echo "*************************************************************************"
+echo "* Please login to the mysql server and create the required database and *"
+echo "* database user with remote login access so that other containers can   *"
+echo "* use it.                                                               *"
+echo "*                                                                       *"
+echo "* e.g.                                                                  *"
+echo "*   CREATE DATABASE db_name;                                            *"
+echo "*   CREATE USER 'db_user'@'%' IDENTIFIED BY 'db_password';              *"
+echo "*   GRANT ALL ON DATABASE.* to 'db_user'@'%';                           *"
+echo "*   FLUSH PRIVILEGES;                                                   *"
+echo "*************************************************************************"
+echo ""
