@@ -11,4 +11,6 @@ ADD resources/commands.sql /mysql/commands.sql
 ADD resources/configure /mysql/configure
 RUN chmod 755 /mysql/configure && /mysql/configure
 
+EXPOSE 3306
+
 CMD ["/usr/bin/mysqld_safe"]
