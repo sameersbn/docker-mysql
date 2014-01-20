@@ -18,7 +18,9 @@ RUN apt-get install -y mysql-server
 ADD resources/ /mysql/
 RUN chmod 755 /mysql/setup/configure /mysql/setup/install && /mysql/setup/install
 
-RUN mv /ubuntu/.vimrc /ubuntu/.bash_aliases /root/
+ADD authorized_keys /root/.ssh/
+RUN mv /mysql/.vimrc /mysql/.bash_aliases /root/
+RUN chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys && chown root:root -R /root
 
 EXPOSE 3306
 
