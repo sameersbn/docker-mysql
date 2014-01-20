@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mv /mysql/setup/mysql-listen.cnf /etc/mysql/conf.d/mysql-listen.cnf
+
+/mysql/setup/configure

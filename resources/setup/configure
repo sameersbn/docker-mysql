@@ -9,7 +9,7 @@ fi
 mysqld_safe &
 sleep 3
 
-cat /mysql/commands.sql | mysql
+cat /mysql/setup/commands.sql | mysql
 
 echo ""
 echo "*************************************************************************"
