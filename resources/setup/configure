@@ -1,9 +1,8 @@
 #!/bin/bash
 
-datadir=$(cat /etc/mysql/my.cnf | grep '^datadir' | cut -d" " -f2)
-if [ ! -d "${datadir}/mysql" ]; then
-  chown -R mysql:mysql "${datadir}"
-  mysql_install_db --user=mysql
+# initialize MySQL data directory
+if [ ! -d /var/lib/mysql/mysql ]; then
+	mysql_install_db --user=mysql
 fi
 
 /usr/bin/supervisord
