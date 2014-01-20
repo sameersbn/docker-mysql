@@ -24,4 +24,4 @@ RUN chmod 700 /root/.ssh && chmod 600 /root/.ssh/authorized_keys && chown root:r
 
 EXPOSE 3306
 
-CMD ["/usr/bin/mysqld_safe"]
+CMD ["/usr/bin/supervisord", "-n"]
