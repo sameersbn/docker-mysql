@@ -2,6 +2,7 @@
 
 mv /mysql/setup/mysql-listen.cnf /etc/mysql/conf.d/mysql-listen.cnf
 
+# supervise mysql server start
 cat > /etc/supervisor/conf.d/mysqld.conf <<EOF
 [program:mysqld]
 priority=20
@@ -14,8 +15,43 @@ stdout_logfile=/var/log/supervisor/%(program_name)s.log
 stderr_logfile=/var/log/supervisor/%(program_name)s.log
 EOF
 
-/mysql/setup/configure
+# initialize MySQL data directory
+if [ ! -d /var/lib/mysql/mysql ]; then
+	mysql_install_db --user=mysql
+fi
 
+/usr/bin/supervisord
+
+# wait for mysql server to start (max 120 seconds)
+timeout=120
+while ! mysqladmin -uroot status >/dev/null 2>&1
+do
+	timeout=$(expr $timeout - 1)
+	if [ $timeout -eq 0 ]; then
+		echo "Failed to start mysql server"
+		exit 1
+	fi
+	sleep 1
+done
+
+echo "Populating mysql database..."
+cat /mysql/setup/commands.sql | mysql
+
+echo ""
+echo "*************************************************************************"
+echo "* Please login to the mysql server and create the required database and *"
+echo "* database user with remote login access so that other containers can   *"
+echo "* use it.                                                               *"
+echo "*                                                                       *"
+echo "* e.g.                                                                  *"
+echo "*   CREATE DATABASE db_name;                                            *"
+echo "*   CREATE USER 'db_user'@'%' IDENTIFIED BY 'db_password';              *"
+echo "*   GRANT ALL ON DATABASE.* to 'db_user'@'%';                           *"
+echo "*   FLUSH PRIVILEGES;                                                   *"
+echo "*************************************************************************"
+echo ""
+
+# supervise ssh server start
 mkdir -p /var/run/sshd
 cat > /etc/supervisor/conf.d/sshd.conf <<EOF
 [program:sshd]

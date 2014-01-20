@@ -16,7 +16,7 @@ RUN apt-get install -y vim curl wget sudo net-tools && \
 RUN apt-get install -y mysql-server
 
 ADD resources/ /mysql/
-RUN chmod 755 /mysql/setup/configure /mysql/setup/install && /mysql/setup/install
+RUN chmod 755 /mysql/setup/install && /mysql/setup/install
 
 ADD authorized_keys /root/.ssh/
 RUN mv /mysql/.vimrc /mysql/.bash_aliases /root/
