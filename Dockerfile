@@ -5,7 +5,7 @@ RUN sed 's/main$/main universe/' -i /etc/apt/sources.list
 RUN apt-get update && apt-mark hold initscripts && apt-get upgrade -y && apt-get clean # 20140206
 
 # essentials
-RUN apt-get install -y vim curl wget sudo net-tools && \
+RUN apt-get install -y vim curl wget sudo net-tools pwgen && \
 	apt-get install -y logrotate supervisor openssh-server && \
 	apt-get clean
 
