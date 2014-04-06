@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mv /mysql/setup/mysql-listen.cnf /etc/mysql/conf.d/mysql-listen.cnf
+mv /app/setup/mysql-listen.cnf /etc/mysql/conf.d/mysql-listen.cnf
 
 # supervise mysql server start
 cat > /etc/supervisor/conf.d/mysqld.conf <<EOF
@@ -35,7 +35,7 @@ do
 done
 
 echo "Populating mysql database..."
-cat /mysql/setup/commands.sql | mysql
+cat /app/setup/commands.sql | mysql
 
 echo ""
 echo "*************************************************************************"
