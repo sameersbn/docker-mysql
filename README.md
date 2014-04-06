@@ -60,7 +60,7 @@ docker run -name mysql -i -t \
 Internally the mysql_secure_installation command executed and you will be prompted to assign a password for the root user among other things.
 
 ## Allowing remote access
-The installation will not allow remote access to the server by default. If you wish to allow remote access to the database for the root user login to the server via SSH(#ssh-login) and execute the following commands from the mysql shell
+The installation will not allow remote access to the server by default. If you wish to allow remote access to the database for the root user login to the server via [SSH](#ssh-login) and execute the following commands from the mysql shell
 
 ```
 GRANT ALL ON *.* TO 'root'@'%.%.%.%' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
