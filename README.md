@@ -4,6 +4,7 @@
 - [Quick Start](#quick-start)
 - [Configuration](#configuration)
     - [Data Store](#data-store)
+    - [Securing the server](#securing-the-server)
 - [Maintenance](#maintenance)
     - [SSH Login](#ssh-login)
 
@@ -46,6 +47,16 @@ docker run -name mysql -d \
 ```
 
 This will make sure that the data stored in the database is not lost when the image is stopped and started again.
+
+## Securing the server
+By default the mysql server is not assigned a password of the root user. If you wish secure the server, run the image with the app:secure_installation command
+
+```
+docker run -name mysql -i -t \
+  -v /opt/mysql/mysql:/var/lib/mysql sameersbn/mysql:latest app:secure_installation
+```
+
+Internally the mysql_secure_installation command executed and you will be prompted to assign a password for the root user among other things.
 
 # Maintenance
 
