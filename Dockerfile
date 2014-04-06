@@ -6,9 +6,8 @@ RUN sed 's/main$/main universe/' -i /etc/apt/sources.list
 RUN apt-get update # 20140405
 
 # essentials
-RUN apt-get install -y vim curl wget sudo net-tools pwgen && \
-	apt-get install -y logrotate supervisor openssh-server && \
-	apt-get clean
+RUN apt-get install -y vim curl wget sudo net-tools pwgen unzip \
+			logrotate supervisor openssh-server && apt-get clean
 
 # build tools
 # RUN apt-get install -y gcc make && apt-get clean
