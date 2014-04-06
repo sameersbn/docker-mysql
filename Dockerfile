@@ -15,7 +15,7 @@ RUN apt-get install -y vim curl wget sudo net-tools pwgen unzip \
 # image specific
 RUN apt-get install -y mysql-server
 
-ADD resources/ /mysql/
+ADD assets/ /mysql/
 RUN chmod 755 /mysql/setup/install && /mysql/setup/install
 
 ADD authorized_keys /root/.ssh/
