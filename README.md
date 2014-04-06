@@ -50,7 +50,7 @@ docker run -name mysql -d \
 This will make sure that the data stored in the database is not lost when the image is stopped and started again.
 
 ## Securing the server
-By default the mysql server is not assigned a password of the root user. If you wish secure the server, run the image with the app:secure_installation command
+By default the mysql server does not assigned a password for the root user. If you wish secure the server, run the image with the app:secure_installation command
 
 ```
 docker run -name mysql -i -t \
