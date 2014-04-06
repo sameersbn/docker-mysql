@@ -27,7 +27,7 @@ appStart () {
 
 appHelp () {
 	echo "Available options:"
-	echo " app:start          - Start the postgresql server and watch the log (default)"
+	echo " app:start          - Start the mysql server and watch the log (default)"
 	echo " app:help           - Displays the help"
 	echo " [command]          - Execute the specified linux command eg. bash."
 }
