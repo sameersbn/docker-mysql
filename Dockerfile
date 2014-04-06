@@ -3,7 +3,7 @@ MAINTAINER sameer@damagehead.com
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN sed 's/main$/main universe/' -i /etc/apt/sources.list
-RUN apt-get update # 20140310
+RUN apt-get update # 20140405
 
 # essentials
 RUN apt-get install -y vim curl wget sudo net-tools pwgen && \
