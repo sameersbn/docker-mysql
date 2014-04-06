@@ -13,7 +13,7 @@ RUN apt-get install -y vim curl wget sudo net-tools pwgen unzip \
 # RUN apt-get install -y gcc make && apt-get clean
 
 # image specific
-RUN apt-get install -y mysql-server
+RUN apt-get install -y mysql-server && apt-get clean
 
 ADD assets/ /app/
 RUN chmod 755 /app/setup/install && /app/setup/install
