@@ -36,6 +36,12 @@ docker run -name mysql -d sameersbn/mysql:latest
 MYSQL_IP=$(docker inspect mysql | grep IPAddres | awk -F'"' '{print $4}')
 ```
 
+By default the root mysql user is not assigned a password and remote logins are permitted from the '172.17.%.%' address space. This means that you should be able to login to the mysql server as root from the host machine.
+
+```
+mysql -h${MYSQL_IP} -uroot
+```
+
 # Configuration
 
 ## Data Store
@@ -60,10 +66,10 @@ docker run -name mysql -i -t \
 Internally the mysql_secure_installation command executed and you will be prompted to assign a password for the root user among other things.
 
 ## Allowing remote access
-The installation will not allow remote access to the server by default. If you wish to allow remote access to the database for the root user login to the server via [SSH](#ssh-login) and execute the following commands from the mysql shell
+By default the installation will allow remote access to the root user from the '172.17.%.%' address space. This means that your host machine and other containers running on the host machine can login to the mysql server as root.
 
 ```
-GRANT ALL ON *.* TO 'root'@'%.%.%.%' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
+GRANT ALL ON *.<db-name> TO '<db-user>'@'<ip-address>' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 ```
 
