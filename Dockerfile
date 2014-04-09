@@ -13,6 +13,7 @@ RUN apt-get install -y vim curl wget sudo net-tools pwgen unzip \
 # RUN apt-get install -y gcc make && apt-get clean
 
 # image specific
+ENV DB_TYPE mysql
 RUN apt-get install -y mysql-server && apt-get clean
 
 ADD assets/ /app/
