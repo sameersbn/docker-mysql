@@ -50,9 +50,9 @@ mysql -h${MYSQL_IP} -uroot
 You should mount a volume at /var/lib/mysql.
 
 ```
-mkdir /opt/mysql/mysql
+mkdir -p /opt/mysql/data
 docker run -name mysql -d \
-  -v /opt/mysql/mysql:/var/lib/mysql sameersbn/mysql:latest
+  -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:latest
 ```
 
 This will make sure that the data stored in the database is not lost when the image is stopped and started again.
@@ -62,7 +62,7 @@ By default the mysql server does not assigned a password for the root user. If y
 
 ```
 docker run -name mysql -i -t \
-  -v /opt/mysql/mysql:/var/lib/mysql sameersbn/mysql:latest app:secure_installation
+  -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:latest app:secure_installation
 ```
 
 Internally the mysql_secure_installation command executed and you will be prompted to assign a password for the root user among other things.
