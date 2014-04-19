@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 # generate a password for root.
@@ -9,6 +8,7 @@ echo User: root Password: $ROOT_PASSWORD
 
 # start supervisord
 /usr/bin/supervisord
+supervisorctl start sshd
 
 appStart () {
 	# fix permissions and ownership of /var/lib/mysql
