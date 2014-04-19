@@ -1,6 +1,9 @@
 #!/bin/bash
 
-mv /app/setup/mysql-listen.cnf /etc/mysql/conf.d/mysql-listen.cnf
+cat > /etc/mysql/conf.d/mysql-listen.cnf <<EOF
+[mysqld]
+bind = 0.0.0.0
+EOF
 
 # supervise mysql server start
 cat > /etc/supervisor/conf.d/mysqld.conf <<EOF
