@@ -14,9 +14,6 @@ stdout_logfile=/var/log/supervisor/%(program_name)s.log
 stderr_logfile=/var/log/supervisor/%(program_name)s.log
 EOF
 
-# remove the default database, will create from init
-rm -rf /var/lib/mysql/mysql
-
 echo ""
 echo "*************************************************************************"
 echo "* Please login to the mysql server and create the required database and *"
