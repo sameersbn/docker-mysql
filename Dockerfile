@@ -6,11 +6,11 @@ RUN apt-get update && \
 		rm -rf /var/lib/mysql/mysql && \
 		apt-get clean # 20140418
 
-ADD assets/ /app/
-RUN chmod 755 /app/init
+ADD init /init
+RUN chmod 755 /init
 
 EXPOSE 3306
 
 VOLUME ["/var/lib/mysql"]
 
-CMD ["/app/init"]
+CMD ["/init"]
