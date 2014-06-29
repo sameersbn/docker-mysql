@@ -5,6 +5,7 @@
 - [Configuration](#configuration)
     - [Data Store](#data-store)
     - [Allowing remote access](#allowing-remote-access)
+- [Upgrading](#upgrading)
 
 # Introduction
 Dockerfile to build a MySQL container image which can be linked to other containers.
