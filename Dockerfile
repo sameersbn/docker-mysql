@@ -13,5 +13,4 @@ EXPOSE 3306
 
 VOLUME ["/var/lib/mysql"]
 
-ENTRYPOINT ["/app/init"]
-CMD ["app:start"]
+CMD ["/app/init"]

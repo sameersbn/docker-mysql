@@ -1,67 +1,34 @@
 #!/bin/bash
 set -e
 
-appStart () {
-	# fix permissions and ownership of /var/lib/mysql
-	chown -R mysql:mysql /var/lib/mysql
-	chmod 700 /var/lib/mysql
+# fix permissions and ownership of /var/lib/mysql
+chown -R mysql:mysql /var/lib/mysql
+chmod 700 /var/lib/mysql
 
-	# initialize MySQL data directory
-	if [ ! -d /var/lib/mysql/mysql ]; then
-		mysql_install_db --user=mysql
+# initialize MySQL data directory
+if [ ! -d /var/lib/mysql/mysql ]; then
+	mysql_install_db --user=mysql
 
-		# start mysql server
-		/usr/bin/mysqld_safe >/dev/null 2>&1 &
+	# start mysql server
+	/usr/bin/mysqld_safe >/dev/null 2>&1 &
 
-		# wait for mysql server to start (max 120 seconds)
-		timeout=120
-		while ! mysqladmin -uroot ping >/dev/null 2>&1
-		do
-			timeout=$(expr $timeout - 1)
-			if [ $timeout -eq 0 ]; then
-				echo "Timeout error occurred trying to start MySQL Daemon."
-				exit 1
-			fi
-			sleep 1
-		done
-
-		# grant remote access from '172.17.%.%' address space to root user
-		echo "GRANT ALL ON *.* TO 'root'@'172.17.%.%' IDENTIFIED BY '' WITH GRANT OPTION;" | mysql -uroot
-		echo "FLUSH PRIVILEGES;" | mysql -uroot
-	else
-		/usr/bin/mysqld_safe >/dev/null 2>&1 &
-	fi
-
-	tail -F /var/log/mysql/error.log
-}
-
-appHelp () {
-	echo "Available options:"
-	echo " app:start                - Start the mysql server and watch the log (default)"
-	echo " app:help                 - Displays the help"
-	echo " [command]                - Execute the specified linux command eg. bash."
-}
-
-case "$1" in
-	app:start)
-		appStart
-		;;
-	app:help)
-		appHelp
-		;;
-	*)
-		if [ -x $1 ]; then
-			$1
-		else
-			prog=$(which $1)
-			if [ -n "${prog}" ] ; then
-				shift 1
-				$prog $@
-			else
-				appHelp
-			fi
+	# wait for mysql server to start (max 120 seconds)
+	timeout=120
+	while ! mysqladmin -uroot ping >/dev/null 2>&1
+	do
+		timeout=$(expr $timeout - 1)
+		if [ $timeout -eq 0 ]; then
+			echo "Timeout error occurred trying to start MySQL Daemon."
+			exit 1
 		fi
-		;;
-esac
+		sleep 1
+	done
 
-exit 0
+	# grant remote access from '172.17.%.%' address space to root user
+	echo "GRANT ALL ON *.* TO 'root'@'172.17.%.%' IDENTIFIED BY '' WITH GRANT OPTION;" | mysql -uroot
+	echo "FLUSH PRIVILEGES;" | mysql -uroot
+else
+	/usr/bin/mysqld_safe >/dev/null 2>&1 &
+fi
+
+tail -F /var/log/mysql/error.log
