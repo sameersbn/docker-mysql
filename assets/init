@@ -15,7 +15,7 @@ appStart () {
 
 		# wait for mysql server to start (max 120 seconds)
 		timeout=120
-		while ! mysqladmin -uroot status >/dev/null 2>&1
+		while ! mysqladmin -uroot ping >/dev/null 2>&1
 		do
 			timeout=$(expr $timeout - 1)
 			if [ $timeout -eq 0 ]; then
@@ -49,7 +49,7 @@ appSecureInstallation () {
 
 	# wait for mysql server to start (max 120 seconds)
 	timeout=120
-	while ! mysqladmin -uroot status >/dev/null 2>&1
+	while ! mysqladmin -uroot ping >/dev/null 2>&1
 	do
 		timeout=$(expr $timeout - 1)
 		if [ $timeout -eq 0 ]; then
