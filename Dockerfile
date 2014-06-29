@@ -10,7 +10,5 @@ ADD init /init
 RUN chmod 755 /init
 
 EXPOSE 3306
-
 VOLUME ["/var/lib/mysql"]
-
 CMD ["/init"]
