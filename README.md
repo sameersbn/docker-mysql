@@ -5,7 +5,6 @@
 - [Configuration](#configuration)
     - [Data Store](#data-store)
     - [Allowing remote access](#allowing-remote-access)
-- [Maintenance](#maintenance)
 
 # Introduction
 Dockerfile to build a MySQL container image which can be linked to other containers.
@@ -62,8 +61,6 @@ By default the installation will allow remote access to the root user from the '
 GRANT ALL ON *.<db-name> TO '<db-user>'@'<ip-address>' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 ```
-
-# Maintenance
 
 # Upgrading
 
