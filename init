@@ -17,6 +17,7 @@ if [ ! -d /var/lib/mysql/mysql ]; then
 	mysql_install_db --user=mysql >/dev/null 2>&1
 
 	# start mysql server
+	echo "Starting MySQL server..."
 	/usr/bin/mysqld_safe >/dev/null 2>&1 &
 
 	# wait for mysql server to start (max 120 seconds)
@@ -35,6 +36,7 @@ if [ ! -d /var/lib/mysql/mysql ]; then
 	echo "GRANT ALL ON *.* TO 'root'@'172.17.%.%' IDENTIFIED BY '' WITH GRANT OPTION;" | mysql -uroot
 	echo "FLUSH PRIVILEGES;" | mysql -uroot
 else
+	echo "Starting MySQL server..."
 	/usr/bin/mysqld_safe >/dev/null 2>&1 &
 fi
 
