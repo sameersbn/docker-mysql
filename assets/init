@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# listen on all interfaces
+cat > /etc/mysql/conf.d/mysql-listen.cnf <<EOF
+[mysqld]
+bind = 0.0.0.0
+EOF
+
 # fix permissions and ownership of /var/lib/mysql
 chown -R mysql:mysql /var/lib/mysql
 chmod 700 /var/lib/mysql
