@@ -7,8 +7,7 @@ RUN apt-get update && \
 		apt-get clean # 20140418
 
 ADD assets/ /app/
-RUN chmod 755 /app/init /app/setup/install
-RUN /app/setup/install
+RUN chmod 755 /app/init
 
 EXPOSE 3306
 
