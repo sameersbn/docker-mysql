@@ -35,37 +35,9 @@ appStart () {
 	tail -F /var/log/mysql/error.log
 }
 
-appSecureInstallation () {
-	# fix permissions and ownership of /var/lib/mysql
-	chown -R mysql:mysql /var/lib/mysql
-	chmod 700 /var/lib/mysql
-
-	# initialize MySQL data directory
-	if [ ! -d /var/lib/mysql/mysql ]; then
-		mysql_install_db --user=mysql
-	fi
-
-	/usr/bin/mysqld_safe >/dev/null 2>&1 &
-
-	# wait for mysql server to start (max 120 seconds)
-	timeout=120
-	while ! mysqladmin -uroot ping >/dev/null 2>&1
-	do
-		timeout=$(expr $timeout - 1)
-		if [ $timeout -eq 0 ]; then
-			echo "Timeout error occurred trying to start MySQL Daemon."
-			exit 1
-		fi
-		sleep 1
-	done
-
-	/usr/bin/mysql_secure_installation
-}
-
 appHelp () {
 	echo "Available options:"
 	echo " app:start                - Start the mysql server and watch the log (default)"
-	echo " app:secure_installation  - Harden server security"
 	echo " app:help                 - Displays the help"
 	echo " [command]                - Execute the specified linux command eg. bash."
 }
@@ -73,9 +45,6 @@ appHelp () {
 case "$1" in
 	app:start)
 		appStart
-		;;
-	app:secure_installation)
-		appSecureInstallation
 		;;
 	app:help)
 		appHelp

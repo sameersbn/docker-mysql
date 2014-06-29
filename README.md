@@ -4,7 +4,6 @@
 - [Quick Start](#quick-start)
 - [Configuration](#configuration)
     - [Data Store](#data-store)
-    - [Securing the server](#securing-the-server)
     - [Allowing remote access](#allowing-remote-access)
 - [Maintenance](#maintenance)
 
@@ -55,16 +54,6 @@ docker run -name mysql -d \
 ```
 
 This will make sure that the data stored in the database is not lost when the image is stopped and started again.
-
-## Securing the server
-By default the mysql server does not assigned a password for the root user. If you wish secure the server, run the image with the app:secure_installation command
-
-```
-docker run -name mysql -i -t \
-  -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:latest app:secure_installation
-```
-
-Internally the mysql_secure_installation command executed and you will be prompted to assign a password for the root user among other things.
 
 ## Allowing remote access
 By default the installation will allow remote access to the root user from the '172.17.%.%' address space. This means that your host machine and other containers running on the host machine can login to the mysql server as root.
