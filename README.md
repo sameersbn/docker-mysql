@@ -31,7 +31,6 @@ Run the mysql image
 
 ```
 docker run -name mysql -d sameersbn/mysql:latest
-MYSQL_IP=$(docker inspect mysql | grep IPAddres | awk -F'"' '{print $4}')
 ```
 
 By default the root mysql user is not assigned a password and remote logins are permitted from the '172.17.%.%' address space. This means that you should be able to login to the mysql server as root from the host machine as well as other containers running on the same host.
@@ -39,7 +38,7 @@ By default the root mysql user is not assigned a password and remote logins are 
 To test if the mysql server is configured properly, try connecting to the server.
 
 ```
-mysql -h${MYSQL_IP} -uroot
+mysql -h$(docker inspect --format {{.NetworkSettings.IPAddress}} mysql) -uroot
 ```
 
 # Configuration
