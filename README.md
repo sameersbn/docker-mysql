@@ -1,4 +1,5 @@
 # Table of Contents
+
 - [Introduction](#introduction)
 - [Reporting Issues](#reporting-issues)
 - [Installation](#installation)
@@ -44,37 +45,39 @@ In your issue report please make sure you provide the following information:
 
 Pull the latest version of the image from the docker index. This is the recommended method of installation as it is easier to update image in the future. These builds are performed by the **Docker Trusted Build** service.
 
-```
+```bash
 docker pull sameersbn/mysql:latest
 ```
 
 Alternately you can build the image yourself.
 
-```
+```bash
 git clone https://github.com/sameersbn/docker-mysql.git
 cd docker-mysql
 docker build -t="$USER/mysql" .
 ```
 
 # Quick Start
+
 Run the mysql image
 
-```
+```bash
 docker run -name mysql -d sameersbn/mysql:latest
 ```
 
-By default the root mysql user is not assigned a password and remote logins are permitted from the '172.17.%.%' address space. This means that you should be able to login to the mysql server as root from the host machine as well as other containers running on the same host.
+By default the root mysql user is not assigned a password and remote logins are permitted from the docker network which normally is the '172.17.%.%' address space. This means that you should be able to login to the mysql server as root from the host machine as well as other containers running on the same host.
 
 To test if the mysql server is configured properly, try connecting to the server.
 
-```
+```bash
 mysql -h$(docker inspect --format {{.NetworkSettings.IPAddress}} mysql) -uroot
 ```
 
 # Configuration
 
 ## Data Store
-You should mount a volume at /var/lib/mysql.
+
+You should mount a volume at `/var/lib/mysql`.
 
 ```
 mkdir -p /opt/mysql/data
@@ -85,9 +88,10 @@ docker run -name mysql -d \
 This will make sure that the data stored in the database is not lost when the image is stopped and started again.
 
 ## Allowing remote access
-By default the installation will allow remote access to the root user from the docker network which normally is the '172.17.%.%' address space. This means that your host machine and other containers running on the host machine can login to the mysql server as root.
 
-```
+By default the installation will allow remote access to the root user from the docker network which normally is the `172.17.%.%` address space. This means that your host machine and other containers running on the host machine can login to the mysql server as root.
+
+```sql
 GRANT ALL ON *.<db-name> TO '<db-user>'@'<ip-address>' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 ```
@@ -120,18 +124,18 @@ To upgrade to newer releases, simply follow this 3 step upgrade procedure.
 
 - **Step 1**: Stop the currently running image
 
-```
+```bash
 docker stop mysql
 ```
 
 - **Step 2**: Update the docker image.
 
-```
+```bash
 docker pull sameersbn/mysql:latest
 ```
 
 - **Step 3**: Start the image
 
-```
+```bash
 docker run -name mysql -d [OPTIONS] sameersbn/mysql:latest
 ```
