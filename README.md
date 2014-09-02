@@ -55,7 +55,7 @@ docker run -name mysql -d \
 This will make sure that the data stored in the database is not lost when the image is stopped and started again.
 
 ## Allowing remote access
-By default the installation will allow remote access to the root user from the '172.17.%.%' address space. This means that your host machine and other containers running on the host machine can login to the mysql server as root.
+By default the installation will allow remote access to the root user from the docker network which normally is the '172.17.%.%' address space. This means that your host machine and other containers running on the host machine can login to the mysql server as root.
 
 ```
 GRANT ALL ON *.<db-name> TO '<db-user>'@'<ip-address>' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;

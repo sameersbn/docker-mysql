@@ -1,6 +1,25 @@
 #!/bin/bash
 set -e
 
+generate_mysql_localnet_filter () {
+  if [ -d /sys/class/net/eth0 ]; then
+    declare -a filter
+    IFS=. read -a ip <<< $(ifconfig eth0 | awk '/inet addr:/ {print $2}'|sed 's/addr://')
+    IFS=. read -a mask <<< $(ifconfig eth0 | awk '/inet addr:/ {print $4}'|sed 's/Mask://')
+    for i in 0 1 2 3
+    do
+      if [ ${mask[$i]} -eq 255 ]; then
+        filter[$i]="${ip[$i]}"
+      else
+        filter[$i]="%"
+      fi
+    done
+    IFS=.; echo -n "${filter[*]}"
+  else
+    echo -n ""
+  fi
+}
+
 # listen on all interfaces
 cat > /etc/mysql/conf.d/mysql-listen.cnf <<EOF
 [mysqld]
@@ -32,9 +51,13 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     sleep 1
   done
 
-  # grant remote access from '172.17.%.%' address space to root user
-  echo "GRANT ALL ON *.* TO 'root'@'172.17.%.%' IDENTIFIED BY '' WITH GRANT OPTION;" | mysql -uroot
-  echo "FLUSH PRIVILEGES;" | mysql -uroot
+  # grant remote access to root user over the localnet
+  filter=$(generate_mysql_localnet_filter)
+  if [ -n "$filter" ]; then
+    echo "Allowing remote access to user 'root' over '$filter' network..."
+    echo "GRANT ALL ON *.* TO 'root'@'${filter}' IDENTIFIED BY '' WITH GRANT OPTION;" | mysql -uroot
+    echo "FLUSH PRIVILEGES;" | mysql -uroot
+  fi
 else
   echo "Starting MySQL server..."
   /usr/bin/mysqld_safe >/dev/null 2>&1 &
