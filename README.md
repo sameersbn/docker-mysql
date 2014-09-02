@@ -79,8 +79,16 @@ mysql -h$(docker inspect --format {{.NetworkSettings.IPAddress}} mysql) -uroot
 
 You should mount a volume at `/var/lib/mysql`.
 
-```
+SELinux users are also required to change the security context of the mount point so that it plays nicely with selinux.
+
+```bash
 mkdir -p /opt/mysql/data
+sudo chcon -Rt svirt_sandbox_file_t /opt/mysql/data
+```
+
+The updated run command looks like this.
+
+```
 docker run -name mysql -d \
   -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:latest
 ```
