@@ -11,4 +11,5 @@ RUN chmod 755 /start
 
 EXPOSE 3306
 VOLUME ["/var/lib/mysql"]
+VOLUME ["/var/run/mysqld"]
 CMD ["/start"]
