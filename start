@@ -30,6 +30,10 @@ EOF
 chown -R mysql:mysql /var/lib/mysql
 chmod 700 /var/lib/mysql
 
+# fix permissions and ownership of /var/run/mysqld
+chown -R mysql:root /var/run/mysqld
+chmod 755 /var/lib/mysql
+
 # initialize MySQL data directory
 if [ ! -d /var/lib/mysql/mysql ]; then
   echo "Installing database..."
