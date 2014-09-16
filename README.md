@@ -101,7 +101,7 @@ This will make sure that the data stored in the database is not lost when the im
 By default the installation will allow remote access to the root user from the docker network which normally is the `172.17.%.%` address space. This means that your host machine and other containers running on the host machine can login to the mysql server as root.
 
 ```sql
-GRANT ALL ON *.<db-name> TO '<db-user>'@'<ip-address>' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
+GRANT ALL ON <db-name>.* TO '<db-user>'@'<ip-address>' IDENTIFIED BY 'PASSWORD' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 ```
 
