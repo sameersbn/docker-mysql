@@ -4,8 +4,8 @@ set -e
 generate_mysql_localnet_filter () {
   if [ -d /sys/class/net/eth0 ]; then
     declare -a filter
-    IFS=. read -a ip <<< $(ifconfig eth0 | awk '/inet addr:/ {print $2}'|sed 's/addr://')
-    IFS=. read -a mask <<< $(ifconfig eth0 | awk '/inet addr:/ {print $4}'|sed 's/Mask://')
+    IFS=. read -a ip <<< "$(ifconfig eth0 | awk '/inet addr:/ {print $2}'|sed 's/addr://')"
+    IFS=. read -a mask <<< "$(ifconfig eth0 | awk '/inet addr:/ {print $4}'|sed 's/Mask://')"
     for i in 0 1 2 3
     do
       if [ ${mask[$i]} -eq 255 ]; then
