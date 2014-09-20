@@ -31,8 +31,8 @@ chown -R mysql:mysql /var/lib/mysql
 chmod 700 /var/lib/mysql
 
 # fix permissions and ownership of /run/mysqld
+mkdir -p -m 0755 /run/mysqld
 chown -R mysql:root /run/mysqld
-chmod 755 /run/mysqld
 
 # initialize MySQL data directory
 if [ ! -d /var/lib/mysql/mysql ]; then
