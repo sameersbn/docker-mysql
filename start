@@ -30,9 +30,9 @@ EOF
 chown -R mysql:mysql /var/lib/mysql
 chmod 700 /var/lib/mysql
 
-# fix permissions and ownership of /var/run/mysqld
-chown -R mysql:root /var/run/mysqld
-chmod 755 /var/run/mysqld
+# fix permissions and ownership of /run/mysqld
+chown -R mysql:root /run/mysqld
+chmod 755 /run/mysqld
 
 # initialize MySQL data directory
 if [ ! -d /var/lib/mysql/mysql ]; then
