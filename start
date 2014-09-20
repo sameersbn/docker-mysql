@@ -26,6 +26,12 @@ cat > /etc/mysql/conf.d/mysql-listen.cnf <<EOF
 bind = 0.0.0.0
 EOF
 
+# Fixing StartUp Porblems with some DNS Situations and Speeds up the stuff
+# http://www.percona.com/blog/2008/05/31/dns-achilles-heel-mysql-installation/
+cat > /etc/mysql/conf.d/mysql-skip-name-resolv.cnf <<EOF
+skip_name_resolve
+EOF
+
 # fix permissions and ownership of /var/lib/mysql
 mkdir -p -m 700 /var/lib/mysql
 chown -R mysql:mysql /var/lib/mysql
