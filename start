@@ -27,8 +27,8 @@ bind = 0.0.0.0
 EOF
 
 # fix permissions and ownership of /var/lib/mysql
+mkdir -p -m 700 /var/lib/mysql
 chown -R mysql:mysql /var/lib/mysql
-chmod 700 /var/lib/mysql
 
 # fix permissions and ownership of /run/mysqld
 mkdir -p -m 0755 /run/mysqld
