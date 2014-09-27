@@ -70,8 +70,8 @@ if [ ! -d /var/lib/mysql/mysql ]; then
   filter=$(generate_mysql_localnet_filter)
   if [ -n "$filter" ]; then
     echo "Allowing remote access to user 'root' over '$filter' network..."
-    echo "GRANT ALL ON *.* TO 'root'@'${filter}' IDENTIFIED BY '' WITH GRANT OPTION;" | mysql -uroot
-    echo "FLUSH PRIVILEGES;" | mysql -uroot
+    mysql -uroot -e "GRANT ALL ON *.* TO 'root'@'${filter}' IDENTIFIED BY '' WITH GRANT OPTION;"
+    mysql -uroot -e "FLUSH PRIVILEGES;"
   fi
   mysqladmin -uroot shutdown
 fi
