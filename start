@@ -55,9 +55,10 @@ if [ ! -d /var/lib/mysql/mysql ]; then
   do
     timeout=$(expr $timeout - 1)
     if [ $timeout -eq 0 ]; then
-      echo "Timeout error occurred trying to start MySQL Daemon."
+      echo "Could not connect to mysql server. Aborting..."
       exit 1
     fi
+    echo "Waiting for database server to accept connections..."
     sleep 1
   done
 
