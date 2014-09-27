@@ -5,25 +5,6 @@ DB_NAME=${DB_NAME:-}
 DB_USER=${DB_USER:-}
 DB_PASS=${DB_PASS:-}
 
-generate_mysql_localnet_filter () {
-  if [ -d /sys/class/net/eth0 ]; then
-    declare -a filter
-    IFS=. read -a ip <<< "$(ifconfig eth0 | awk '/inet addr:/ {print $2}'|sed 's/addr://')"
-    IFS=. read -a mask <<< "$(ifconfig eth0 | awk '/inet addr:/ {print $4}'|sed 's/Mask://')"
-    for i in 0 1 2 3
-    do
-      if [ ${mask[$i]} -eq 255 ]; then
-        filter[$i]="${ip[$i]}"
-      else
-        filter[$i]="%"
-      fi
-    done
-    IFS=.; echo -n "${filter[*]}"
-  else
-    echo -n ""
-  fi
-}
-
 # disable error log
 sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
 
@@ -78,13 +59,6 @@ if [ ! -d /var/lib/mysql/mysql ]; then
   mysql -uroot -e "CREATE USER '${DEBIAN_USER}'@'localhost' IDENTIFIED BY '${DEBIAN_PASS}';"
   mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO '${DEBIAN_USER}'@'localhost' IDENTIFIED BY '${DEBIAN_PASS}' WITH GRANT OPTION;"
 
-  # grant remote access to root user over the localnet
-  filter=$(generate_mysql_localnet_filter)
-  if [ -n "$filter" ]; then
-    echo "Allowing remote access to user 'root' over '$filter' network..."
-    mysql -uroot -e "GRANT ALL ON *.* TO 'root'@'${filter}' IDENTIFIED BY '' WITH GRANT OPTION;"
-    mysql -uroot -e "FLUSH PRIVILEGES;"
-  fi
   /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
 fi
 
