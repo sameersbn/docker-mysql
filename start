@@ -29,6 +29,7 @@ EOF
 # Fixing StartUp Porblems with some DNS Situations and Speeds up the stuff
 # http://www.percona.com/blog/2008/05/31/dns-achilles-heel-mysql-installation/
 cat > /etc/mysql/conf.d/mysql-skip-name-resolv.cnf <<EOF
+[mysqld]
 skip_name_resolve
 EOF
 
