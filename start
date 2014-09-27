@@ -66,6 +66,14 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     sleep 1
   done
 
+  # create maintenance user
+  DEBIAN_USER=$(cat /etc/mysql/debian.cnf | grep user | head -n1 | awk '{ print $3 }')
+  DEBIAN_PASS=$(cat /etc/mysql/debian.cnf | grep password | head -n1 | awk '{ print $3 }')
+
+  echo "Creating \"${DEBIAN_USER}@localhost\" user..."
+  mysql -uroot -e "CREATE USER '${DEBIAN_USER}'@'localhost' IDENTIFIED BY '${DEBIAN_PASS}';"
+  mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO '${DEBIAN_USER}'@'localhost' IDENTIFIED BY '${DEBIAN_PASS}' WITH GRANT OPTION;"
+
   # grant remote access to root user over the localnet
   filter=$(generate_mysql_localnet_filter)
   if [ -n "$filter" ]; then
@@ -73,7 +81,7 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     mysql -uroot -e "GRANT ALL ON *.* TO 'root'@'${filter}' IDENTIFIED BY '' WITH GRANT OPTION;"
     mysql -uroot -e "FLUSH PRIVILEGES;"
   fi
-  mysqladmin -uroot shutdown
+  mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
 fi
 
 exec /usr/bin/mysqld_safe
