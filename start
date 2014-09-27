@@ -20,6 +20,9 @@ generate_mysql_localnet_filter () {
   fi
 }
 
+# disable error log
+sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
+
 # listen on all interfaces
 cat > /etc/mysql/conf.d/mysql-listen.cnf <<EOF
 [mysqld]
