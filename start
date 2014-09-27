@@ -73,9 +73,7 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     echo "GRANT ALL ON *.* TO 'root'@'${filter}' IDENTIFIED BY '' WITH GRANT OPTION;" | mysql -uroot
     echo "FLUSH PRIVILEGES;" | mysql -uroot
   fi
-else
-  echo "Starting MySQL server..."
-  /usr/bin/mysqld_safe >/dev/null 2>&1 &
+  mysqladmin -uroot shutdown
 fi
 
-tail -F /var/log/mysql/error.log
+exec /usr/bin/mysqld_safe
