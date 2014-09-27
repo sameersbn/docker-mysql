@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+DB_NAME=${DB_NAME:-}
+DB_USER=${DB_USER:-}
+DB_PASS=${DB_PASS:-}
+
 generate_mysql_localnet_filter () {
   if [ -d /sys/class/net/eth0 ]; then
     declare -a filter
@@ -80,6 +84,35 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     echo "Allowing remote access to user 'root' over '$filter' network..."
     mysql -uroot -e "GRANT ALL ON *.* TO 'root'@'${filter}' IDENTIFIED BY '' WITH GRANT OPTION;"
     mysql -uroot -e "FLUSH PRIVILEGES;"
+  fi
+  /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
+fi
+
+# create new user / database
+if [ -n "${DB_USER}" -o -n "${DB_NAME}" ]; then
+  /usr/bin/mysqld_safe >/dev/null 2>&1 &
+
+  # wait for mysql server to start (max 30 seconds)
+  timeout=30
+  while ! /usr/bin/mysqladmin -u root status >/dev/null 2>&1
+  do
+    timeout=$(($timeout - 1))
+    if [ $timeout -eq 0 ]; then
+      echo "Could not connect to mysql server. Aborting..."
+      exit 1
+    fi
+    sleep 1
+  done
+
+  if [ -n "${DB_NAME}" ]; then
+    echo "Creating database \"${DB_NAME}\"..."
+    mysql --defaults-file=/etc/mysql/debian.cnf \
+      -e "CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` DEFAULT CHARACTER SET \`utf8\` COLLATE \`utf8_unicode_ci\`;"
+    if [ -n "${DB_USER}" ]; then
+      echo "Granting access to database \"${DB_NAME}\" for user \"${DB_USER}\"..."
+      mysql --defaults-file=/etc/mysql/debian.cnf \
+        -e "GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}' IDENTIFIED BY '${DB_PASS}';"
+    fi
   fi
   /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
 fi

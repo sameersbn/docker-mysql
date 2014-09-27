@@ -5,6 +5,7 @@
 - [Reporting Issues](#reporting-issues)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
+- [Creating User and Database at Launch](creating-user-and-database-at-launch)
 - [Configuration](#configuration)
     - [Data Store](#data-store)
     - [Allowing remote access](#allowing-remote-access)
@@ -73,6 +74,30 @@ To test if the mysql server is configured properly, try connecting to the server
 ```bash
 mysql -h$(docker inspect --format {{.NetworkSettings.IPAddress}} mysql) -uroot
 ```
+
+# Creating User and Database at Launch
+
+To create a new database specify the database name in the `DB_NAME` variable. The following command creates a new database named *dbname*:
+
+```bash
+docker run --name mysql -d \
+  -e 'DB_NAME=dbname' sameersbn/mysql:latest
+```
+
+To create a new user you should specify the `DB_USER` and `DB_PASS` variables.
+
+```bash
+docker run --name mysql -d \
+  -e 'DB_USER=dbuser' -e 'DB_PASS=dbpass' -e 'DB_NAME=dbname' \
+  sameersbn/mysql:latest
+```
+
+The above command will create a user *dbuser* with the password *dbpass* and will also create a database named *dbname*. The *dbuser* user will have full/remote access to the database.
+
+**NOTE**
+- If the `DB_NAME` is not specified, the user will not be created
+- If the user/database user already exists no changes are be made
+- If `DB_PASS` is not specified, an empty password will be set for the user
 
 # Configuration
 
