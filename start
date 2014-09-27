@@ -53,7 +53,7 @@ if [ ! -d /var/lib/mysql/mysql ]; then
   timeout=30
   while ! mysqladmin -u root status >/dev/null 2>&1
   do
-    timeout=$(expr $timeout - 1)
+    timeout=$(($timeout - 1))
     if [ $timeout -eq 0 ]; then
       echo "Could not connect to mysql server. Aborting..."
       exit 1
