@@ -56,7 +56,6 @@ if [ ! -d /var/lib/mysql/mysql ]; then
   DEBIAN_PASS=$(cat /etc/mysql/debian.cnf | grep password | head -n1 | awk '{ print $3 }')
 
   echo "Creating \"${DEBIAN_USER}@localhost\" user..."
-  mysql -uroot -e "CREATE USER '${DEBIAN_USER}'@'localhost' IDENTIFIED BY '${DEBIAN_PASS}';"
   mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO '${DEBIAN_USER}'@'localhost' IDENTIFIED BY '${DEBIAN_PASS}' WITH GRANT OPTION;"
 
   /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
