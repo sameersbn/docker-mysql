@@ -30,7 +30,7 @@ mkdir -p -m 0755 /run/mysqld
 chown -R mysql:root /run/mysqld
 
 # set password for debian-sys-maint user
-sed 's/password = [a-z,A-Z,0-9]*/password = /g' -i /etc/mysql/debian.cnf
+sed 's/password = .*/password = /g' -i /etc/mysql/debian.cnf
 
 # initialize MySQL data directory
 if [ ! -d /var/lib/mysql/mysql ]; then
