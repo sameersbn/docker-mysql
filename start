@@ -54,12 +54,8 @@ if [ ! -d /var/lib/mysql/mysql ]; then
     sleep 1
   done
 
-  # create maintenance user
-  DEBIAN_USER=$(cat /etc/mysql/debian.cnf | grep user | head -n1 | awk '{ print $3 }')
-  DEBIAN_PASS=$(cat /etc/mysql/debian.cnf | grep password | head -n1 | awk '{ print $3 }')
-
-  echo "Creating \"${DEBIAN_USER}@localhost\" user..."
-  mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO '${DEBIAN_USER}'@'localhost' IDENTIFIED BY '${DEBIAN_PASS}' WITH GRANT OPTION;"
+  echo "Creating debian-sys-maint user..."
+  mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;"
 
   /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
 fi
