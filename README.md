@@ -6,8 +6,7 @@
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Creating User and Database at Launch](creating-user-and-database-at-launch)
-- [Configuration](#configuration)
-    - [Data Store](#data-store)
+- [Data Store](#data-store)
 - [Shell Access](#shell-access)
 - [Upgrading](#upgrading)
 
@@ -96,9 +95,7 @@ The above command will create a user *dbuser* with the password *dbpass* and wil
 - If the user/database user already exists no changes are be made
 - If `DB_PASS` is not specified, an empty password will be set for the user
 
-# Configuration
-
-## Data Store
+# Data Store
 
 You should mount a volume at `/var/lib/mysql`.
 
