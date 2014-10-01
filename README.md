@@ -5,8 +5,8 @@
 - [Reporting Issues](#reporting-issues)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
-- [Creating User and Database at Launch](creating-user-and-database-at-launch)
 - [Data Store](#data-store)
+- [Creating User and Database at Launch](creating-user-and-database-at-launch)
 - [Shell Access](#shell-access)
 - [Upgrading](#upgrading)
 
@@ -71,6 +71,26 @@ You can access the mysql server as the root user using the following command:
 docker run -it --rm --volumes-from=mysql sameersbn/mysql mysql -uroot
 ```
 
+# Data Store
+
+You should mount a volume at `/var/lib/mysql`.
+
+SELinux users are also required to change the security context of the mount point so that it plays nicely with selinux.
+
+```bash
+mkdir -p /opt/mysql/data
+sudo chcon -Rt svirt_sandbox_file_t /opt/mysql/data
+```
+
+The updated run command looks like this.
+
+```
+docker run -name mysql -d \
+  -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:latest
+```
+
+This will make sure that the data stored in the database is not lost when the image is stopped and started again.
+
 # Creating User and Database at Launch
 
 To create a new database specify the database name in the `DB_NAME` variable. The following command creates a new database named *dbname*:
@@ -94,26 +114,6 @@ The above command will create a user *dbuser* with the password *dbpass* and wil
 - If the `DB_NAME` is not specified, the user will not be created
 - If the user/database user already exists no changes are be made
 - If `DB_PASS` is not specified, an empty password will be set for the user
-
-# Data Store
-
-You should mount a volume at `/var/lib/mysql`.
-
-SELinux users are also required to change the security context of the mount point so that it plays nicely with selinux.
-
-```bash
-mkdir -p /opt/mysql/data
-sudo chcon -Rt svirt_sandbox_file_t /opt/mysql/data
-```
-
-The updated run command looks like this.
-
-```
-docker run -name mysql -d \
-  -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:latest
-```
-
-This will make sure that the data stored in the database is not lost when the image is stopped and started again.
 
 # Shell Access
 
