@@ -98,11 +98,12 @@ This will make sure that the data stored in the database is not lost when the im
 >
 > For this feature to work the `debian-sys-maint` user needs to exist. This user is automatically created when the database is installed for the first time (firstrun).
 >
-> However if you were using this image before this feature was added, then it will not work as-is. You are required to create the `debian-sys-maint` user using the following query after logging in to the mysql server as `root`
+> However if you were using this image before this feature was added, then it will not work as-is. You are required to create the `debian-sys-maint` user
 >
-> ```sql
-> GRANT ALL PRIVILEGES on *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;
-> ```
+>```bash
+>docker run -it --rm --volumes-from=mysql sameersbn/mysql \
+>  mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;"
+>```
 
 To create a new database specify the database name in the `DB_NAME` variable. The following command creates a new database named *dbname*:
 
