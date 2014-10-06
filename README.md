@@ -6,7 +6,7 @@
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Data Store](#data-store)
-- [Creating User and Database at Launch](creating-user-and-database-at-launch)
+- [Creating User and Database at Launch](#creating-user-and-database-at-launch)
 - [Shell Access](#shell-access)
 - [Upgrading](#upgrading)
 
