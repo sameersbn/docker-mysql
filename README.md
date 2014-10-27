@@ -78,7 +78,7 @@ docker run -name mysql -d sameersbn/mysql:latest
 You can access the mysql server as the root user using the following command:
 
 ```bash
-docker run -it --rm --volumes-from=mysql sameersbn/mysql mysql -uroot
+docker run -it --rm --volumes-from=mysql sameersbn/mysql:latest mysql -uroot
 ```
 
 # Data Store
