@@ -5,6 +5,12 @@ DB_NAME=${DB_NAME:-}
 DB_USER=${DB_USER:-}
 DB_PASS=${DB_PASS:-}
 
+# Save previous IFS
+PREV_IFS="$IFS"
+IFS=, DB_ARRAY=($DB_NAME)
+# Restore IFS
+IFS="$PREV_IFS"
+
 # disable error log
 sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
 
@@ -86,14 +92,16 @@ if [ -n "${DB_USER}" -o -n "${DB_NAME}" ]; then
   done
 
   if [ -n "${DB_NAME}" ]; then
-    echo "Creating database \"${DB_NAME}\"..."
-    mysql --defaults-file=/etc/mysql/debian.cnf \
-      -e "CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` DEFAULT CHARACTER SET \`utf8\` COLLATE \`utf8_unicode_ci\`;"
-    if [ -n "${DB_USER}" ]; then
-      echo "Granting access to database \"${DB_NAME}\" for user \"${DB_USER}\"..."
+    for db in "${DB_ARRAY[@]}"; do
+      echo "Creating database \"$db\"..."
       mysql --defaults-file=/etc/mysql/debian.cnf \
-        -e "GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}' IDENTIFIED BY '${DB_PASS}';"
-    fi
+        -e "CREATE DATABASE IF NOT EXISTS \`$db\` DEFAULT CHARACTER SET \`utf8\` COLLATE \`utf8_unicode_ci\`;"
+        if [ -n "${DB_USER}" ]; then
+          echo "Granting access to database \"$db\" for user \"${DB_USER}\"..."
+          mysql --defaults-file=/etc/mysql/debian.cnf \
+          -e "GRANT ALL PRIVILEGES ON \`$db\`.* TO '${DB_USER}' IDENTIFIED BY '${DB_PASS}';"
+        fi
+      done
   fi
   /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
 fi

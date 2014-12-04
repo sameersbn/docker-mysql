@@ -121,6 +121,13 @@ docker run --name mysql -d \
   -e 'DB_NAME=dbname' sameersbn/mysql:latest
 ```
 
+You may also specify a comma separated list of database names in the `DB_NAME` variable. The following command creates two new databases named *dbname1* and *dbname2*
+
+```bash
+docker run --name mysql -d \
+-e 'DB_NAME=dbname1,dbname2' sameersbn/mysql:latest
+```
+
 To create a new user you should specify the `DB_USER` and `DB_PASS` variables.
 
 ```bash
