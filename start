@@ -5,12 +5,6 @@ DB_NAME=${DB_NAME:-}
 DB_USER=${DB_USER:-}
 DB_PASS=${DB_PASS:-}
 
-# Save previous IFS
-PREV_IFS="$IFS"
-IFS=, DB_ARRAY=($DB_NAME)
-# Restore IFS
-IFS="$PREV_IFS"
-
 # disable error log
 sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
 
@@ -92,7 +86,7 @@ if [ -n "${DB_USER}" -o -n "${DB_NAME}" ]; then
   done
 
   if [ -n "${DB_NAME}" ]; then
-    for db in "${DB_ARRAY[@]}"; do
+    for db in $(awk -F',' '{for (i = 1 ; i <= NF ; i++) print $i}' <<< "${DB_NAME}"); do
       echo "Creating database \"$db\"..."
       mysql --defaults-file=/etc/mysql/debian.cnf \
         -e "CREATE DATABASE IF NOT EXISTS \`$db\` DEFAULT CHARACTER SET \`utf8\` COLLATE \`utf8_unicode_ci\`;"
