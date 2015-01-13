@@ -71,12 +71,12 @@ if [ ! -d /var/lib/mysql/mysql ]; then
   mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;"
 
   if [ -n "${DB_REMOTE_ROOT_NAME}" -a -n "${DB_REMOTE_ROOT_HOST}" ]; then
-    echo "Creating remote root user for remote host"
+    echo "Creating remote user with full privileges for remote host"
 
     mysql -uroot \
     -e "GRANT ALL PRIVILEGES ON *.* TO '${DB_REMOTE_ROOT_NAME}'@'${DB_REMOTE_ROOT_HOST}' IDENTIFIED BY '${DB_REMOTE_ROOT_PASS}' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
-    echo "Remote rootuser created"
+    echo "Remote remote user with full privileges created"
     echo "Remote host: ${DB_REMOTE_ROOT_HOST}"
     echo "User: ${DB_REMOTE_ROOT_NAME}"
     echo "PAss: ${DB_REMOTE_ROOT_PASS}"
