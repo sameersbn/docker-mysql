@@ -8,6 +8,7 @@
 - [Quick Start](#quick-start)
 - [Data Store](#data-store)
 - [Creating User and Database at Launch](#creating-user-and-database-at-launch)
+- [Creating remote user with privileged access](#creating-remote-user-with-privileged-access)
 - [Shell Access](#shell-access)
 - [Upgrading](#upgrading)
 
@@ -142,6 +143,23 @@ The above command will create a user *dbuser* with the password *dbpass* and wil
 - If the `DB_NAME` is not specified, the user will not be created
 - If the user/database user already exists no changes are be made
 - If `DB_PASS` is not specified, an empty password will be set for the user
+
+# Creating remote user with privileged access
+
+To create a remote user with privileged access, you need to specify the `DB_REMOTE_ROOT_NAME` and `DB_REMOTE_ROOT_PASS` variables, eg.
+
+```bash
+docker run --name mysql -d \
+  -e 'DB_REMOTE_ROOT_NAME=root' -e 'DB_REMOTE_ROOT_PASS=secretpassword' \
+  sameersbn/mysql:latest
+```
+
+Optionally you can specify the `DB_REMOTE_ROOT_HOST` variable to define the address space within which remote access should be permitted. This defaults to `172.17.42.1` and should suffice for most cases.
+
+Situations that would require you to override the default `DB_REMOTE_ROOT_HOST` setting are:
+
+- If you have changed the ip address of the `docker0` interface
+- If you are using host networking, i.e. `--net=host`, etc.
 
 # Shell Access
 
