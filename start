@@ -5,6 +5,10 @@ DB_NAME=${DB_NAME:-}
 DB_USER=${DB_USER:-}
 DB_PASS=${DB_PASS:-}
 
+DB_REMOTE_ROOT_NAME=${DB_REMOTE_ROOT_NAME:-}
+DB_REMOTE_ROOT_PASS=${DB_REMOTE_ROOT_PASS:-}
+DB_REMOTE_ROOT_HOST=${DB_REMOTE_ROOT_HOST:-"172.17.42.1"}
+
 # disable error log
 sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
 
@@ -65,6 +69,18 @@ if [ ! -d /var/lib/mysql/mysql ]; then
   ## as well as to shut down or starting up the mysql server via mysqladmin
   echo "Creating debian-sys-maint user..."
   mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;"
+
+  if [ -n "${DB_REMOTE_ROOT_NAME}" -a -n "${DB_REMOTE_ROOT_HOST}" ]; then
+    echo "Creating remote user with full privileges for remote host"
+
+    mysql -uroot \
+    -e "GRANT ALL PRIVILEGES ON *.* TO '${DB_REMOTE_ROOT_NAME}'@'${DB_REMOTE_ROOT_HOST}' IDENTIFIED BY '${DB_REMOTE_ROOT_PASS}' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+
+    echo "Remote remote user with full privileges created"
+    echo "Remote host: ${DB_REMOTE_ROOT_HOST}"
+    echo "User: ${DB_REMOTE_ROOT_NAME}"
+    echo "PAss: ${DB_REMOTE_ROOT_PASS}"
+  fi
 
   /usr/bin/mysqladmin --defaults-file=/etc/mysql/debian.cnf shutdown
 fi
