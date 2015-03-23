@@ -1,10 +1,10 @@
-FROM sameersbn/ubuntu:14.04.20150220
+FROM sameersbn/ubuntu:14.04.20150323
 MAINTAINER sameer@damagehead.com
 
 RUN apt-get update \
  && apt-get install -y mysql-server \
  && rm -rf /var/lib/mysql/mysql \
- && rm -rf /var/lib/apt/lists/* # 20150220
+ && rm -rf /var/lib/apt/lists/* # 20150323
 
 ADD start /start
 RUN chmod 755 /start
