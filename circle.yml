@@ -11,5 +11,5 @@ dependencies:
     - mkdir -p ~/docker-mysql; docker save --output ~/docker-mysql/image.tar sameersbn/mysql
 test:
   override:
-    - docker run -d -p 23306:3306 sameersbn/mysql; sleep 10
-    - nc -z 127.0.0.1 23306
+    - docker run --name=mysql -d -p 23306:3306 sameersbn/mysql; sleep 10
+    - docker run -it --volumes-from=mysql sameersbn/mysql mysqladmin status
