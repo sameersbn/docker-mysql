@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/sameersbn/docker-mysql.svg?style=svg)](https://circleci.com/gh/sameersbn/docker-mysql)
+
 # Table of Contents
 
 - [Introduction](#introduction)
