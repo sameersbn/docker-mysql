@@ -9,6 +9,21 @@ DB_REMOTE_ROOT_NAME=${DB_REMOTE_ROOT_NAME:-}
 DB_REMOTE_ROOT_PASS=${DB_REMOTE_ROOT_PASS:-}
 DB_REMOTE_ROOT_HOST=${DB_REMOTE_ROOT_HOST:-"172.17.42.1"}
 
+create_data_dir() {
+  mkdir -p ${MYSQL_DATA_DIR}
+  chmod -R 0700 ${MYSQL_DATA_DIR}
+  chown ${MYSQL_USER}:${MYSQL_USER} ${MYSQL_DATA_DIR}
+}
+
+create_run_dir() {
+  mkdir -p ${MYSQL_RUN_DIR}
+  chmod -R 0755 ${MYSQL_RUN_DIR}
+  chown ${MYSQL_USER}:root ${MYSQL_RUN_DIR}
+}
+
+create_data_dir
+create_run_dir
+
 # disable error log
 sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
 
@@ -18,14 +33,6 @@ cat > /etc/mysql/conf.d/mysql-skip-name-resolv.cnf <<EOF
 [mysqld]
 skip_name_resolve
 EOF
-
-# fix permissions and ownership of ${MYSQL_DATA_DIR}
-mkdir -p -m 700 ${MYSQL_DATA_DIR}
-chown -R ${MYSQL_USER}:${MYSQL_USER} ${MYSQL_DATA_DIR}
-
-# fix permissions and ownership of ${MYSQL_RUN_DIR}
-mkdir -p -m 0755 ${MYSQL_RUN_DIR}
-chown -R ${MYSQL_USER}:root ${MYSQL_RUN_DIR}
 
 #
 # the default password for the debian-sys-maint user is randomly generated
