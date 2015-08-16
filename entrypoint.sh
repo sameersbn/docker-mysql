@@ -19,9 +19,9 @@ cat > /etc/mysql/conf.d/mysql-skip-name-resolv.cnf <<EOF
 skip_name_resolve
 EOF
 
-# fix permissions and ownership of /var/lib/mysql
-mkdir -p -m 700 /var/lib/mysql
-chown -R ${MYSQL_USER}:${MYSQL_USER} /var/lib/mysql
+# fix permissions and ownership of ${MYSQL_DATA_DIR}
+mkdir -p -m 700 ${MYSQL_DATA_DIR}
+chown -R ${MYSQL_USER}:${MYSQL_USER} ${MYSQL_DATA_DIR}
 
 # fix permissions and ownership of /run/mysqld
 mkdir -p -m 0755 /run/mysqld
@@ -37,7 +37,7 @@ chown -R ${MYSQL_USER}:root /run/mysqld
 sed 's/password = .*/password = /g' -i /etc/mysql/debian.cnf
 
 # initialize MySQL data directory
-if [ ! -d /var/lib/mysql/mysql ]; then
+if [ ! -d ${MYSQL_DATA_DIR}/mysql ]; then
   echo "Installing database..."
   mysql_install_db --user=mysql >/dev/null 2>&1
 
