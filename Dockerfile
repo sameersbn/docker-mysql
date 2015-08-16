@@ -6,12 +6,12 @@ RUN apt-get update \
  && rm -rf /var/lib/mysql/mysql \
  && rm -rf /var/lib/apt/lists/* # 20150805
 
-ADD start /start
-RUN chmod 755 /start
+ADD entrypoint.sh /sbin/entrypoint.sh
+RUN chmod 755 /sbin/entrypoint.sh
 
 EXPOSE 3306
 
 VOLUME ["/var/lib/mysql"]
 VOLUME ["/run/mysqld"]
 
-CMD ["/start"]
+CMD ["/sbin/entrypoint.sh"]
