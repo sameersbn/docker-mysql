@@ -21,8 +21,15 @@ create_run_dir() {
   chown ${MYSQL_USER}:root ${MYSQL_RUN_DIR}
 }
 
+create_log_dir() {
+  mkdir -p ${MYSQL_LOG_DIR}
+  chmod -R 0755 ${MYSQL_LOG_DIR}
+  chown -R ${MYSQL_USER}:${MYSQL_USER} ${MYSQL_LOG_DIR}
+}
+
 create_data_dir
 create_run_dir
+create_log_dir
 
 # disable error log
 sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
