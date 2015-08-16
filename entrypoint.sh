@@ -21,11 +21,11 @@ EOF
 
 # fix permissions and ownership of /var/lib/mysql
 mkdir -p -m 700 /var/lib/mysql
-chown -R mysql:mysql /var/lib/mysql
+chown -R ${MYSQL_USER}:${MYSQL_USER} /var/lib/mysql
 
 # fix permissions and ownership of /run/mysqld
 mkdir -p -m 0755 /run/mysqld
-chown -R mysql:root /run/mysqld
+chown -R ${MYSQL_USER}:root /run/mysqld
 
 #
 # the default password for the debian-sys-maint user is randomly generated

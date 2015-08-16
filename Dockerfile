@@ -1,6 +1,8 @@
 FROM sameersbn/ubuntu:14.04.20150805
 MAINTAINER sameer@damagehead.com
 
+ENV MYSQL_USER=mysql
+
 RUN apt-get update \
  && apt-get install -y mysql-server \
  && rm -rf /var/lib/mysql \
