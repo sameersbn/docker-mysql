@@ -9,7 +9,7 @@ RUN apt-get update \
 ADD entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
-EXPOSE 3306
+EXPOSE 3306/tcp
 
 VOLUME ["/var/lib/mysql"]
 VOLUME ["/run/mysqld"]
