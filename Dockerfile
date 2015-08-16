@@ -6,7 +6,7 @@ RUN apt-get update \
  && rm -rf /var/lib/mysql \
  && rm -rf /var/lib/apt/lists/*
 
-ADD entrypoint.sh /sbin/entrypoint.sh
+COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
 EXPOSE 3306/tcp
