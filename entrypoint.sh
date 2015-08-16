@@ -12,13 +12,13 @@ DB_REMOTE_ROOT_HOST=${DB_REMOTE_ROOT_HOST:-"172.17.42.1"}
 create_data_dir() {
   mkdir -p ${MYSQL_DATA_DIR}
   chmod -R 0700 ${MYSQL_DATA_DIR}
-  chown ${MYSQL_USER}:${MYSQL_USER} ${MYSQL_DATA_DIR}
+  chown -R ${MYSQL_USER}:${MYSQL_USER} ${MYSQL_DATA_DIR}
 }
 
 create_run_dir() {
   mkdir -p ${MYSQL_RUN_DIR}
   chmod -R 0755 ${MYSQL_RUN_DIR}
-  chown ${MYSQL_USER}:root ${MYSQL_RUN_DIR}
+  chown -R ${MYSQL_USER}:root ${MYSQL_RUN_DIR}
 }
 
 create_log_dir() {
