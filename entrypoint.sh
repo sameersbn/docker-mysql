@@ -135,14 +135,23 @@ create_data_dir
 create_run_dir
 create_log_dir
 
-# default behaviour is to launch mysqld
+# allow arguments to be passed to mysqld_safe
+if [[ ${1:0:1} = '-' ]]; then
+  EXTRA_ARGS="$@"
+  set --
+elif [[ ${1} == mysqld_safe || ${1} == $(which mysqld_safe) ]]; then
+  EXTRA_ARGS="${@:2}"
+  set --
+fi
+
+# default behaviour is to launch mysqld_safe
 if [[ -z ${1} ]]; then
   apply_configuration_fixes
   remove_debian_systen_maint_password
   initialize_mysql_database
   create_users_and_databases
   listen_on_all_interfaces
-  exec /usr/bin/mysqld_safe
+  exec $(which mysqld_safe) $EXTRA_ARGS
 else
   exec "$@"
 fi
