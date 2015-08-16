@@ -10,8 +10,5 @@ ADD entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
 EXPOSE 3306/tcp
-
-VOLUME ["/var/lib/mysql"]
-VOLUME ["/run/mysqld"]
-
+VOLUME ["/var/lib/mysql", "/run/mysqld"]
 CMD ["/sbin/entrypoint.sh"]
