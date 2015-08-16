@@ -23,9 +23,9 @@ EOF
 mkdir -p -m 700 ${MYSQL_DATA_DIR}
 chown -R ${MYSQL_USER}:${MYSQL_USER} ${MYSQL_DATA_DIR}
 
-# fix permissions and ownership of /run/mysqld
-mkdir -p -m 0755 /run/mysqld
-chown -R ${MYSQL_USER}:root /run/mysqld
+# fix permissions and ownership of ${MYSQL_RUN_DIR}
+mkdir -p -m 0755 ${MYSQL_RUN_DIR}
+chown -R ${MYSQL_USER}:root ${MYSQL_RUN_DIR}
 
 #
 # the default password for the debian-sys-maint user is randomly generated

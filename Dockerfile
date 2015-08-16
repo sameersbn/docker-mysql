@@ -2,7 +2,8 @@ FROM sameersbn/ubuntu:14.04.20150805
 MAINTAINER sameer@damagehead.com
 
 ENV MYSQL_USER=mysql \
-    MYSQL_DATA_DIR=/var/lib/mysql
+    MYSQL_DATA_DIR=/var/lib/mysql \
+    MYSQL_RUN_DIR=/run/mysqld
 
 RUN apt-get update \
  && apt-get install -y mysql-server \
@@ -13,5 +14,5 @@ COPY entrypoint.sh /sbin/entrypoint.sh
 RUN chmod 755 /sbin/entrypoint.sh
 
 EXPOSE 3306/tcp
-VOLUME ["${MYSQL_DATA_DIR}", "/run/mysqld"]
+VOLUME ["${MYSQL_DATA_DIR}", "${MYSQL_RUN_DIR}"]
 CMD ["/sbin/entrypoint.sh"]
