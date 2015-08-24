@@ -1,4 +1,4 @@
-FROM sameersbn/ubuntu:14.04.20150816
+FROM sameersbn/ubuntu:14.04.20150825
 MAINTAINER sameer@damagehead.com
 
 ENV MYSQL_USER=mysql \
