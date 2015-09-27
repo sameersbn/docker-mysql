@@ -208,5 +208,5 @@ docker pull sameersbn/mysql:latest
 - **Step 3**: Start the image
 
 ```bash
-docker run -name mysql -d [OPTIONS] sameersbn/mysql:latest
+docker run --name mysql -d [OPTIONS] sameersbn/mysql:latest
 ```
