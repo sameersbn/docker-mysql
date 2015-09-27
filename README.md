@@ -75,7 +75,7 @@ docker build -t="$USER/mysql" .
 Run the mysql image
 
 ```bash
-docker run -name mysql -d sameersbn/mysql:latest
+docker run --name mysql -d sameersbn/mysql:latest
 ```
 
 You can access the mysql server as the root user using the following command:
@@ -98,7 +98,7 @@ sudo chcon -Rt svirt_sandbox_file_t /opt/mysql/data
 The updated run command looks like this.
 
 ```
-docker run -name mysql -d \
+docker run --name mysql -d \
   -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:latest
 ```
 
@@ -208,5 +208,5 @@ docker pull sameersbn/mysql:latest
 - **Step 3**: Start the image
 
 ```bash
-docker run -name mysql -d [OPTIONS] sameersbn/mysql:latest
+docker run --name mysql -d [OPTIONS] sameersbn/mysql:latest
 ```
