@@ -12,4 +12,4 @@ dependencies:
 test:
   override:
     - docker run --name=mysql -d sameersbn/mysql; sleep 10
-    - docker run -it --volumes-from=mysql sameersbn/mysql mysqladmin status
+    - docker run --volumes-from=mysql sameersbn/mysql mysqladmin status
