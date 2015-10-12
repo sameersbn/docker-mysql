@@ -1,4 +1,4 @@
-[![Circle CI](https://circleci.com/gh/sameersbn/docker-mysql.svg?style=svg)](https://circleci.com/gh/sameersbn/docker-mysql)
+[![Circle CI](https://circleci.com/gh/sameersbn/docker-mysql.svg?style=svg)](https://circleci.com/gh/sameersbn/docker-mysql) [![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/mysql/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/mysql)
 
 # Table of Contents
 
