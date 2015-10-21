@@ -146,6 +146,15 @@ The above command will create a user *dbuser* with the password *dbpass* and wil
 - If the user/database user already exists no changes are be made
 - If `DB_PASS` is not specified, an empty password will be set for the user
 
+By default the new database will be created with the `utf8` character set and `utf8_unicode_ci` collation. You may override these with the `MYSQL_CHARSET` and `MYSQL_COLLATION` variables.
+
+```bash
+docker run --name mysql -d \
+  -e 'DB_USER=dbuser' -e 'DB_PASS=dbpass' -e 'DB_NAME=dbname' \
+  -e 'MYSQL_CHARSET=utf8mb4' -e 'MYSQL_COLLATION=utf8_bin' \
+  quay.io/sameersbn/mysql:latest
+```
+
 # Creating remote user with privileged access
 
 To create a remote user with privileged access, you need to specify the `DB_REMOTE_ROOT_NAME` and `DB_REMOTE_ROOT_PASS` variables, eg.
