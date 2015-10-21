@@ -9,6 +9,9 @@ DB_REMOTE_ROOT_NAME=${DB_REMOTE_ROOT_NAME:-}
 DB_REMOTE_ROOT_PASS=${DB_REMOTE_ROOT_PASS:-}
 DB_REMOTE_ROOT_HOST=${DB_REMOTE_ROOT_HOST:-"172.17.42.1"}
 
+MYSQL_CHARSET=${MYSQL_CHARSET:-"utf8"}
+MYSQL_COLLATION=${MYSQL_COLLATION:-"utf8_unicode_ci"}
+
 create_data_dir() {
   mkdir -p ${MYSQL_DATA_DIR}
   chmod -R 0700 ${MYSQL_DATA_DIR}
@@ -112,7 +115,7 @@ create_users_and_databases() {
       for db in $(awk -F',' '{for (i = 1 ; i <= NF ; i++) print $i}' <<< "${DB_NAME}"); do
         echo "Creating database \"$db\"..."
         mysql --defaults-file=/etc/mysql/debian.cnf \
-          -e "CREATE DATABASE IF NOT EXISTS \`$db\` DEFAULT CHARACTER SET \`utf8\` COLLATE \`utf8_unicode_ci\`;"
+          -e "CREATE DATABASE IF NOT EXISTS \`$db\` DEFAULT CHARACTER SET \`$MYSQL_CHARSET\` COLLATE \`$MYSQL_COLLATION\`;"
           if [ -n "${DB_USER}" ]; then
             echo "Granting access to database \"$db\" for user \"${DB_USER}\"..."
             mysql --defaults-file=/etc/mysql/debian.cnf \
