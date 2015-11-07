@@ -56,10 +56,12 @@ In your issue report please make sure you provide the following information:
 
 # Installation
 
-Automated builds of the image are available on [Quay.io](https://quay.io/repository/sameersbn/mysql) and is the recommended method of installation.
+Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/sameersbn/mysql) and is the recommended method of installation.
+
+> **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/mysql)
 
 ```bash
-docker pull quay.io/sameersbn/mysql:latest
+docker pull sameersbn/mysql:latest
 ```
 
 Alternately you can build the image yourself.
@@ -75,13 +77,13 @@ docker build -t="$USER/mysql" .
 Run the mysql image
 
 ```bash
-docker run --name mysql -d quay.io/sameersbn/mysql:latest
+docker run --name mysql -d sameersbn/mysql:latest
 ```
 
 You can access the mysql server as the root user using the following command:
 
 ```bash
-docker run -it --rm --volumes-from=mysql quay.io/sameersbn/mysql:latest mysql -uroot
+docker run -it --rm --volumes-from=mysql sameersbn/mysql:latest mysql -uroot
 ```
 
 # Data Store
@@ -99,7 +101,7 @@ The updated run command looks like this.
 
 ```
 docker run --name mysql -d \
-  -v /opt/mysql/data:/var/lib/mysql quay.io/sameersbn/mysql:latest
+  -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:latest
 ```
 
 This will make sure that the data stored in the database is not lost when the image is stopped and started again.
@@ -113,7 +115,7 @@ This will make sure that the data stored in the database is not lost when the im
 > However if you were using this image before this feature was added, then it will not work as-is. You are required to create the `debian-sys-maint` user
 >
 >```bash
->docker run -it --rm --volumes-from=mysql quay.io/sameersbn/mysql \
+>docker run -it --rm --volumes-from=mysql sameersbn/mysql \
 >  mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;"
 >```
 
@@ -121,14 +123,14 @@ To create a new database specify the database name in the `DB_NAME` variable. Th
 
 ```bash
 docker run --name mysql -d \
-  -e 'DB_NAME=dbname' quay.io/sameersbn/mysql:latest
+  -e 'DB_NAME=dbname' sameersbn/mysql:latest
 ```
 
 You may also specify a comma separated list of database names in the `DB_NAME` variable. The following command creates two new databases named *dbname1* and *dbname2*
 
 ```bash
 docker run --name mysql -d \
--e 'DB_NAME=dbname1,dbname2' quay.io/sameersbn/mysql:latest
+-e 'DB_NAME=dbname1,dbname2' sameersbn/mysql:latest
 ```
 
 To create a new user you should specify the `DB_USER` and `DB_PASS` variables.
@@ -136,7 +138,7 @@ To create a new user you should specify the `DB_USER` and `DB_PASS` variables.
 ```bash
 docker run --name mysql -d \
   -e 'DB_USER=dbuser' -e 'DB_PASS=dbpass' -e 'DB_NAME=dbname' \
-  quay.io/sameersbn/mysql:latest
+  sameersbn/mysql:latest
 ```
 
 The above command will create a user *dbuser* with the password *dbpass* and will also create a database named *dbname*. The *dbuser* user will have full/remote access to the database.
@@ -152,7 +154,7 @@ By default the new database will be created with the `utf8` character set and `u
 docker run --name mysql -d \
   -e 'DB_USER=dbuser' -e 'DB_PASS=dbpass' -e 'DB_NAME=dbname' \
   -e 'MYSQL_CHARSET=utf8mb4' -e 'MYSQL_COLLATION=utf8_bin' \
-  quay.io/sameersbn/mysql:latest
+  sameersbn/mysql:latest
 ```
 
 # Creating remote user with privileged access
@@ -162,7 +164,7 @@ To create a remote user with privileged access, you need to specify the `DB_REMO
 ```bash
 docker run --name mysql -d \
   -e 'DB_REMOTE_ROOT_NAME=root' -e 'DB_REMOTE_ROOT_PASS=secretpassword' \
-  quay.io/sameersbn/mysql:latest
+  sameersbn/mysql:latest
 ```
 
 Optionally you can specify the `DB_REMOTE_ROOT_HOST` variable to define the address space within which remote access should be permitted. This defaults to `172.17.42.1` and should suffice for most cases.
@@ -211,11 +213,11 @@ docker stop mysql
 - **Step 2**: Update the docker image.
 
 ```bash
-docker pull quay.io/sameersbn/mysql:latest
+docker pull sameersbn/mysql:latest
 ```
 
 - **Step 3**: Start the image
 
 ```bash
-docker run --name mysql -d [OPTIONS] quay.io/sameersbn/mysql:latest
+docker run --name mysql -d [OPTIONS] sameersbn/mysql:latest
 ```
