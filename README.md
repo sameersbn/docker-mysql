@@ -67,9 +67,7 @@ docker pull sameersbn/mysql:latest
 Alternately you can build the image yourself.
 
 ```bash
-git clone https://github.com/sameersbn/docker-mysql.git
-cd docker-mysql
-docker build -t="$USER/mysql" .
+docker build -t sameersbn/mysql github.com/sameersbn/docker-mysql
 ```
 
 # Quick Start
