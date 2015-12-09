@@ -165,7 +165,7 @@ docker run --name mysql -d \
   sameersbn/mysql:latest
 ```
 
-Optionally you can specify the `DB_REMOTE_ROOT_HOST` variable to define the address space within which remote access should be permitted. This defaults to `172.17.42.1` and should suffice for most cases.
+Optionally you can specify the `DB_REMOTE_ROOT_HOST` variable to define the address space within which remote access should be permitted. This defaults to `172.17.0.1` and should suffice for most cases.
 
 Situations that would require you to override the default `DB_REMOTE_ROOT_HOST` setting are:
 
