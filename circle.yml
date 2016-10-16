@@ -1,15 +1,13 @@
 machine:
   services:
     - docker
+
 dependencies:
-  cache_directories:
-    - "~/docker-mysql"
   override:
     - docker info
-    - if [[ -e ~/docker-mysql/image.tar ]]; then docker load --input ~/docker-mysql/image.tar; fi
-    - docker build -t sameersbn/mysql .
-    - mkdir -p ~/docker-mysql; docker save --output ~/docker-mysql/image.tar sameersbn/mysql
+
 test:
   override:
+    - docker build -t sameersbn/mysql .
     - docker run --name=mysql -d sameersbn/mysql; sleep 10
     - docker run --volumes-from=mysql sameersbn/mysql mysqladmin status
