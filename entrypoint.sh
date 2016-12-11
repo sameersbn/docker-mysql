@@ -30,6 +30,10 @@ create_log_dir() {
   chown -R ${MYSQL_USER}:${MYSQL_USER} ${MYSQL_LOG_DIR}
 }
 
+listen() {
+  sed -e "s/^bind-address\(.*\)=.*/bind-address = $1/" -i /etc/mysql/my.cnf
+}
+
 apply_configuration_fixes() {
   # disable error log
   sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
@@ -127,13 +131,6 @@ create_users_and_databases() {
   fi
 }
 
-listen_on_all_interfaces() {
-  cat > /etc/mysql/conf.d/mysql-listen.cnf <<EOF
-[mysqld]
-bind = 0.0.0.0
-EOF
-}
-
 create_data_dir
 create_run_dir
 create_log_dir
@@ -149,11 +146,12 @@ fi
 
 # default behaviour is to launch mysqld_safe
 if [[ -z ${1} ]]; then
+  listen "127.0.0.1"
   apply_configuration_fixes
   remove_debian_systen_maint_password
   initialize_mysql_database
   create_users_and_databases
-  listen_on_all_interfaces
+  listen "0.0.0.0"
   exec $(which mysqld_safe) $EXTRA_ARGS
 else
   exec "$@"
