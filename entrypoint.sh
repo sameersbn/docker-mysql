@@ -31,12 +31,12 @@ create_log_dir() {
 }
 
 listen() {
-  sed -e "s/^bind-address\(.*\)=.*/bind-address = $1/" -i /etc/mysql/my.cnf
+  sed -e "s/^bind-address\(.*\)=.*/bind-address = $1/" -i /etc/mysql/mysql.conf.d/mysqld.cnf
 }
 
 apply_configuration_fixes() {
   # disable error log
-  sed 's/^log_error/# log_error/' -i /etc/mysql/my.cnf
+  sed 's/^log_error/# log_error/' -i /etc/mysql/mysql.conf.d/mysqld.cnf
 
   # Fixing StartUp Porblems with some DNS Situations and Speeds up the stuff
   # http://www.percona.com/blog/2008/05/31/dns-achilles-heel-mysql-installation/
@@ -61,7 +61,7 @@ initialize_mysql_database() {
   # initialize MySQL data directory
   if [ ! -d ${MYSQL_DATA_DIR}/mysql ]; then
     echo "Installing database..."
-    mysql_install_db --user=mysql >/dev/null 2>&1
+    mysqld --initialize-insecure --user=mysql >/dev/null 2>&1
 
     # start mysql server
     echo "Starting MySQL server..."
@@ -86,6 +86,7 @@ initialize_mysql_database() {
     ## the debian-sys-maint is used while creating users and database
     ## as well as to shut down or starting up the mysql server via mysqladmin
     echo "Creating debian-sys-maint user..."
+    mysql -uroot -e "CREATE USER 'debian-sys-maint'@'localhost' IDENTIFIED BY '';"
     mysql -uroot -e "GRANT ALL PRIVILEGES on *.* TO 'debian-sys-maint'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;"
 
     if [ -n "${DB_REMOTE_ROOT_NAME}" -a -n "${DB_REMOTE_ROOT_HOST}" ]; then
