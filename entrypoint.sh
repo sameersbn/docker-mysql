@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+[[ $DEBUG == true ]] && set -x
+
 DB_NAME=${DB_NAME:-}
 DB_USER=${DB_USER:-}
 DB_PASS=${DB_PASS:-}
