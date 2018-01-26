@@ -24,6 +24,9 @@ create_run_dir() {
   mkdir -p ${MYSQL_RUN_DIR}
   chmod -R 0755 ${MYSQL_RUN_DIR}
   chown -R ${MYSQL_USER}:root ${MYSQL_RUN_DIR}
+
+  # hack: remove any existing lock files
+  rm -rf ${MYSQL_RUN_DIR}/mysqld.sock.lock
 }
 
 create_log_dir() {
