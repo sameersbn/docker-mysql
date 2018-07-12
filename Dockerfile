@@ -1,4 +1,5 @@
-FROM ubuntu:xenial-20180525
+FROM ubuntu:bionic-20180526
+
 LABEL maintainer="sameer@damagehead.com"
 
 ENV MYSQL_USER=mysql \
@@ -13,8 +14,11 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /sbin/entrypoint.sh
+
 RUN chmod 755 /sbin/entrypoint.sh
 
 EXPOSE 3306/tcp
+
 ENTRYPOINT ["/sbin/entrypoint.sh"]
+
 CMD ["/usr/bin/mysqld_safe"]
