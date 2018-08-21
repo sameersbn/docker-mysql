@@ -51,7 +51,7 @@ skip_name_resolve
 EOF
 }
 
-remove_debian_systen_maint_password() {
+remove_debian_system_maint_password() {
   #
   # the default password for the debian-sys-maint user is randomly generated
   # during the installation of the mysql-server package.
@@ -154,7 +154,7 @@ fi
 if [[ -z ${1} ]]; then
   listen "127.0.0.1"
   apply_configuration_fixes
-  remove_debian_systen_maint_password
+  remove_debian_system_maint_password
   initialize_mysql_database
   create_users_and_databases
   listen "0.0.0.0"
