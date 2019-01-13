@@ -49,7 +49,7 @@ If using the latest docker version and/or disabling selinux does not fix the iss
 
 In your issue report please make sure you provide the following information:
 
-- The host ditribution and release version.
+- The host distribution and release version.
 - Output of the `docker version` command
 - Output of the `docker info` command
 - The `docker run` command you used to run the image (mask out the sensitive bits).
