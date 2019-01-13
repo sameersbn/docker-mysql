@@ -1,6 +1,6 @@
 # Changelog
 
-**latest**
+**5.7.24**
 - update base image to ubuntu:bionic-20181204
 - upgrade to mysql-server 5.7.24
 
