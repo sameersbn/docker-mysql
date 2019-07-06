@@ -1,4 +1,4 @@
-FROM ubuntu:bionic-20181204
+FROM ubuntu:bionic-20190612
 
 LABEL maintainer="sameer@damagehead.com"
 
