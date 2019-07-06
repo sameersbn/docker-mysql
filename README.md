@@ -61,7 +61,7 @@ Automated builds of the image are available on [Dockerhub](https://hub.docker.co
 > **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/mysql)
 
 ```bash
-docker pull sameersbn/mysql:5.7.24
+docker pull sameersbn/mysql:5.7.26-0
 ```
 
 Alternately you can build the image yourself.
@@ -75,13 +75,13 @@ docker build -t sameersbn/mysql github.com/sameersbn/docker-mysql
 Run the mysql image
 
 ```bash
-docker run --name mysql -d sameersbn/mysql:5.7.24
+docker run --name mysql -d sameersbn/mysql:5.7.26-0
 ```
 
 You can access the mysql server as the root user using the following command:
 
 ```bash
-docker run -it --rm --volumes-from=mysql sameersbn/mysql:5.7.24 mysql -uroot
+docker run -it --rm --volumes-from=mysql sameersbn/mysql:5.7.26-0 mysql -uroot
 ```
 
 # Data Store
@@ -99,7 +99,7 @@ The updated run command looks like this.
 
 ```
 docker run --name mysql -d \
-  -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:5.7.24
+  -v /opt/mysql/data:/var/lib/mysql sameersbn/mysql:5.7.26-0
 ```
 
 This will make sure that the data stored in the database is not lost when the image is stopped and started again.
@@ -121,14 +121,14 @@ To create a new database specify the database name in the `DB_NAME` variable. Th
 
 ```bash
 docker run --name mysql -d \
-  -e 'DB_NAME=dbname' sameersbn/mysql:5.7.24
+  -e 'DB_NAME=dbname' sameersbn/mysql:5.7.26-0
 ```
 
 You may also specify a comma separated list of database names in the `DB_NAME` variable. The following command creates two new databases named *dbname1* and *dbname2*
 
 ```bash
 docker run --name mysql -d \
--e 'DB_NAME=dbname1,dbname2' sameersbn/mysql:5.7.24
+-e 'DB_NAME=dbname1,dbname2' sameersbn/mysql:5.7.26-0
 ```
 
 To create a new user you should specify the `DB_USER` and `DB_PASS` variables.
@@ -136,7 +136,7 @@ To create a new user you should specify the `DB_USER` and `DB_PASS` variables.
 ```bash
 docker run --name mysql -d \
   -e 'DB_USER=dbuser' -e 'DB_PASS=dbpass' -e 'DB_NAME=dbname' \
-  sameersbn/mysql:5.7.24
+  sameersbn/mysql:5.7.26-0
 ```
 
 The above command will create a user *dbuser* with the password *dbpass* and will also create a database named *dbname*. The *dbuser* user will have full/remote access to the database.
@@ -152,7 +152,7 @@ By default the new database will be created with the `utf8` character set and `u
 docker run --name mysql -d \
   -e 'DB_USER=dbuser' -e 'DB_PASS=dbpass' -e 'DB_NAME=dbname' \
   -e 'MYSQL_CHARSET=utf8mb4' -e 'MYSQL_COLLATION=utf8_bin' \
-  sameersbn/mysql:5.7.24
+  sameersbn/mysql:5.7.26-0
 ```
 
 # Creating remote user with privileged access
@@ -162,7 +162,7 @@ To create a remote user with privileged access, you need to specify the `DB_REMO
 ```bash
 docker run --name mysql -d \
   -e 'DB_REMOTE_ROOT_NAME=root' -e 'DB_REMOTE_ROOT_PASS=secretpassword' \
-  sameersbn/mysql:5.7.24
+  sameersbn/mysql:5.7.26-0
 ```
 
 Optionally you can specify the `DB_REMOTE_ROOT_HOST` variable to define the address space within which remote access should be permitted. This defaults to `172.17.0.1` and should suffice for most cases.
@@ -211,11 +211,11 @@ docker stop mysql
 - **Step 2**: Update the docker image.
 
 ```bash
-docker pull sameersbn/mysql:5.7.24
+docker pull sameersbn/mysql:5.7.26-0
 ```
 
 - **Step 3**: Start the image
 
 ```bash
-docker run --name mysql -d [OPTIONS] sameersbn/mysql:5.7.24
+docker run --name mysql -d [OPTIONS] sameersbn/mysql:5.7.26-0
 ```
